@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  playground.server:
+    image: ${DOCKER_REGISTRY-}playgroundserver
+    build:
+      context: .
+      dockerfile: Playground/Server/Dockerfile
+    depends_on:
+      - db
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${Playground_PROD_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${Playground_PROD_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${Playground_PROD_POSTGRES_DB}
+    ports:
+      - '5433:5432'
